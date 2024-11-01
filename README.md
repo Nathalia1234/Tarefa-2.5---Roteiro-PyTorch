@@ -1,56 +1,88 @@
 # Implementação de Algoritmos de Deep Learning com PyTorch: Classificação do Dataset Iris
 
 # Descrição do Projeto
-Este mini-projeto utiliza o dataset clássico Iris para treinar um modelo de rede neural em PyTorch, visando classificar espécies de íris. O objetivo é demonstrar a aplicação de técnicas de Deep Learning para resolver problemas de classificação. Este repositório inclui todos os componentes necessários para entender, treinar, avaliar, e executar o modelo.
+Este mini-projeto implementa uma rede neural simples em PyTorch para classificar espécies de flores no dataset Iris. O projeto está dividido em dois notebooks principais: um para treinamento e salvamento dos pesos (train_model.ipynb) e outro para carregar os pesos e realizar predições (predict_model.ipynb).
 
 # Estrutura do Repositório
-train_model.ipynb: Notebook para treinamento do modelo, incluindo etapas de pré-processamento, configuração da rede neural e visualização das métricas.
-predict_model.ipynb: Notebook para carregamento dos pesos treinados e predições com novos dados.
-best_model.pth: Arquivo contendo os pesos da melhor versão do modelo treinado.
-README.md: Documento explicativo sobre o projeto, descrições dos dados e as decisões tomadas.
-Vídeo: Um vídeo curto que demonstra a execução e funcionamento do modelo.
+* train_model.ipynb: Notebook para treinar o modelo, registrar métricas e salvar os melhores pesos.
+* predict_model.ipynb: Notebook para carregar os pesos treinados e fazer predições em novos dados.
+* best_model.pth: Arquivo que contém os pesos da melhor rede treinada, salvo automaticamente durante o treinamento.
+* README.md: Documento explicativo do projeto.
 
-# Dataset
-O dataset utilizado é o Iris, composto por quatro características (comprimento e largura da sépala e pétala) para três espécies de flores. Ele possui 150 amostras, distribuídas uniformemente entre as classes.
 
-## Pré-Processamento dos Dados
-Codificação das Classes: Usamos o LabelEncoder para transformar as classes categóricas em valores numéricos.
-Normalização: Aplicamos normalização para melhorar a eficiência do treinamento e a estabilidade dos gradientes.
-Divisão em Conjuntos: Dividimos o dataset em conjuntos de treino e teste com a proporção 80/20.
+# Descrição dos Notebooks
+## Notebook 1: train_model.ipynb
+O notebook de treinamento contém as seguintes etapas:
 
-## Estrutura da Rede Neural
-Optamos por uma rede simples com uma camada oculta, suficiente para capturar a complexidade do dataset Iris, que tem baixo número de amostras e dimensões:
+1. Importação das Bibliotecas: Todas as bibliotecas necessárias são importadas, incluindo PyTorch para a construção da rede neural e bibliotecas do scikit-learn para pré-processamento e métricas de desempenho.
 
-* Camada de Entrada: 4 neurônios (um para cada característica).
-* Camada Oculta: 16 neurônios com função de ativação ReLU.
-* Camada de Saída: 3 neurônios (um para cada classe), ativados com Softmax durante a inferência para gerar probabilidades de cada classe.
+2. Carregamento e Pré-Processamento dos Dados:
+* O dataset Iris é carregado, e os dados são divididos em conjunto de treino e teste (80/20).
+* Os dados são normalizados para melhorar a eficiência do treinamento.
+* Os dados são convertidos para tensores PyTorch.
+  
+3. Definição do Modelo:
+* Um modelo de rede neural simples é definido com uma camada oculta de 16 neurônios e uma camada de saída com 3 neurônios, correspondente às 3 classes do dataset Iris.
 
-A escolha por uma rede simples se justifica pela baixa complexidade do problema, permitindo um treinamento rápido e resultados satisfatórios.
+4. Configuração da Função de Perda e Otimizador:
+* Utiliza-se a função de perda CrossEntropyLoss e o otimizador Adam com taxa de aprendizado de 0.001.
+  
+5. Treinamento do Modelo com Registro de Métricas:
+* O modelo é treinado por 50 épocas.
+* Durante o treinamento, são registradas as seguintes métricas:
+    * Loss de Treinamento e Validação
+    * Acurácia de Treinamento e Validação
+    * F1 Score de Validação
+    * Precisão e Recall de Validação
+* Os melhores pesos do modelo (baseado na menor loss de validação) são salvos em best_model.pth.
 
-# Treinamento
-O modelo foi treinado por 50 épocas com Adam como otimizador e uma taxa de aprendizado de 0.001. Utilizamos CrossEntropyLoss como função de perda, ideal para classificação multiclasse.
+6. Visualização das Métricas:
+* São exibidos gráficos que mostram o desempenho do modelo ao longo do treinamento:
+      * Loss durante o Treinamento e Validação
+      * Acurácia durante o Treinamento e Validação
+      * F1 Score de Validação
+      * Precisão e Recall de Validação
+* A matriz de confusão é exibida ao final para avaliar o desempenho do modelo em cada classe.
 
-Durante o treinamento, registramos as métricas principais para avaliar o progresso do modelo. Os pesos da melhor época foram salvos automaticamente.
+## Notebook 2: predict_model.ipynb
+O notebook de predição contém as seguintes etapas:
 
-# Avaliação de Desempenho
-Para avaliar o desempenho, analisamos as seguintes métricas:
+1. Importação das Bibliotecas:
+* Importa as bibliotecas necessárias, incluindo PyTorch para carregar o modelo e fazer predições.
 
-1. Acurácia: Medimos a acurácia do modelo em treino e teste.
-2. F1 Score: Utilizado para avaliar a performance com equilíbrio entre precisão e recall.
-3. Loss: Visualizamos a loss durante o treinamento e validação para garantir que o modelo está convergindo.
-4. Matriz de Confusão: Demonstramos o desempenho do modelo para cada classe, ajudando a identificar potenciais classes mais difíceis de prever.
+2. Definição do Modelo:
+* A mesma arquitetura de rede neural definida no notebook de treinamento é redefinida aqui, garantindo compatibilidade para carregar os pesos.
 
-## Gráficos
-Os gráficos de loss e acurácia por época e a matriz de confusão foram incluídos para facilitar a análise visual da performance do modelo.
+3. Carregamento dos Pesos:
+* Os melhores pesos do modelo são carregados a partir do arquivo best_model.pth, colocando o modelo em modo de avaliação.
 
-# Instruções para Predições
-O notebook predict_model.ipynb permite carregar os pesos treinados (best_model.pth) e fazer predições em novas amostras. Este arquivo demonstra como o modelo pode ser reutilizado para inferências futuras.
+4. Predição em Novos Dados:
+* Um exemplo de entrada é usado para demonstrar a capacidade do modelo de realizar predições.
+* O modelo retorna a classe prevista para a amostra.
+  
+# Principais Métricas de Desempenho
+As seguintes métricas são registradas e exibidas para avaliar o desempenho do modelo:
 
-# Vídeo Demonstrativo
-Incluímos um vídeo que mostra a execução do modelo, destacando o processo de predição e resultados para as amostras de teste.
+* Loss de Treinamento e Validação: Ajuda a entender se o modelo está aprendendo ao longo das épocas.
+* Acurácia de Treinamento e Validação: Mede a precisão geral das predições do modelo.
+* F1 Score de Validação: Útil para avaliar o equilíbrio entre precisão e recall.
+* Precisão e Recall de Validação: Oferecem uma visão detalhada sobre a performance do modelo em cada classe.
+* Matriz de Confusão: Exibe onde o modelo acerta e erra para cada classe do conjunto de teste.
+
+# Como Executar os Notebooks
+## Requisitos
+Certifique-se de que todas as bibliotecas necessárias estão instaladas.
+
+## Passo 1: Treinamento
+1. Abra o notebook train_model.ipynb.
+2. Execute as células para treinar o modelo. Os melhores pesos serão salvos automaticamente como best_model.pth.
+
+## Passo 2: Predição
+1. Após o treinamento, abra o notebook predict_model.ipynb.
+2. Carregue os pesos salvos (fazendo upload do arquivo "best_model.pth" e execute as células para realizar predições em novos dados.
 
 # Conclusão
-Este mini-projeto demonstrou a viabilidade de redes neurais simples para tarefas de classificação em datasets de baixo volume e baixa complexidade. A aplicação das técnicas de Deep Learning mostrou-se eficaz, e os resultados são promissores para a classificação de espécies de íris.
+Este projeto demonstra o uso de uma rede neural simples para classificação de dados usando PyTorch. Através de métricas como acurácia, F1 Score, precisão e recall, é possível avaliar detalhadamente o desempenho do modelo. Este projeto serve como uma introdução ao uso de redes neurais para tarefas de classificação em Python e PyTorch.
 
 # Discentes: 
 * Nathalia Ohana
