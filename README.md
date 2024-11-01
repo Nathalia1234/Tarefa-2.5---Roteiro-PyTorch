@@ -136,7 +136,8 @@ Certifique-se de que todas as bibliotecas necessárias estão instaladas.
 1. Após o treinamento, abra o arquivo `predict_model.ipynb`.
 2. Carregue os pesos salvos (fazendo upload do arquivo `best_model.pth` , inserindo o caminho dele ou buscando o mesmo na pasta 'Downloads' onde ele deve ter sido encaminhado após a execução do arquivo de treinamento) e execute as células para realizar predições em novos dados.
 
-<br>
+![image](https://github.com/user-attachments/assets/9f291f49-cf6c-4a7f-8d7d-aaa3000cd738)
+
 
 # Conclusão
 Este projeto demonstra o uso de uma rede neural simples para classificação de dados usando PyTorch. Através de métricas como acurácia, F1 Score, precisão e recall, é possível avaliar detalhadamente o desempenho do modelo. Este projeto serve como uma introdução ao uso de redes neurais para tarefas de classificação em Python e PyTorch.
