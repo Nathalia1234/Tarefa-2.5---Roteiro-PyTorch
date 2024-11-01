@@ -129,7 +129,8 @@ Certifique-se de que todas as bibliotecas necessárias estão instaladas.
 1. Baixe o arquivo `train_model.ipynb`.
 2. Execute-o. Os melhores pesos serão salvos automaticamente como `best_model.pth`.
 
-<br>
+![image](https://github.com/user-attachments/assets/d947c9cd-f1b0-4a87-8fbf-17ad3493b4ee)
+
 
 ## Passo 2: Predição
 1. Após o treinamento, abra o arquivo `predict_model.ipynb`.
